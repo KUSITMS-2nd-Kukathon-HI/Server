@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class PostResponseDto {
     private List<PostResponseDataDto> popular=new ArrayList<>();
@@ -23,24 +22,15 @@ public class PostResponseDto {
     private List<PostResponseDataDto> career=new ArrayList<>();
     private List<PostResponseDataDto> etc=new ArrayList<>();
 
-    public void addDto(String category, PostResponseDataDto dto) {
-        System.out.println("category2 : "+category);
-        switch (category) {
-            case "popular":
-                popular.add(dto);
-                break;
-            case "edu":
-                edu.add(dto);
-                break;
-            case "support":
-                support.add(dto);
-                break;
-            case "protect":
-                protect.add(dto);
-                break;
-            case "etc":
-                etc.add(dto);
-                break;
-        }
+    public PostResponseDto(List<PostResponseDataDto> popular ,List<PostResponseDataDto> edu,
+        List<PostResponseDataDto> support ,List<PostResponseDataDto> protect,
+        List<PostResponseDataDto> career, List<PostResponseDataDto> etc){
+            this.popular = popular;
+            this.edu = edu;
+            this.support = support;
+            this.protect = protect;
+            this.career = career;
+            this.etc = etc;
     }
+
 }
