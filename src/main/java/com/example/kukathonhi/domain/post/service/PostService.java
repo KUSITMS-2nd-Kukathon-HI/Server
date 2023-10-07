@@ -28,9 +28,9 @@ public class PostService {
         List<Post> careerList = postRepository.findByCategoryContaining("career");
         List<Post> etcList = postRepository.findByCategoryContaining("etc");
 
-        String image1="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/popular1.png";
-        String image2="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/popular2.png";
-        String image3="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/popular3.png";
+        String image1="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/p1.png";
+        String image2="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/p2.png";
+        String image3="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/p3.png";
 
         List<PostResponseDataDto> popularDto = new ArrayList<>();
         popularDto.add(new PostResponseDataDto(image1));
