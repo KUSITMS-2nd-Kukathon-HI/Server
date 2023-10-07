@@ -1,5 +1,6 @@
 package com.example.kukathonhi.domain.center.entity;
 
+import com.example.kukathonhi.common.Enum.CenterCategory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,4 +28,7 @@ public class Center {
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
+
+    @Column(name = "category", nullable = false)
+    private CenterCategory category;
 }
