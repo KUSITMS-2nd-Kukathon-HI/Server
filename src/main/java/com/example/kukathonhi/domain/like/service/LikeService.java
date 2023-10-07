@@ -29,10 +29,16 @@ public class LikeService {
         User user = userRepository.findById(userId).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
 
+        Like likeDto = likeRepository.findByUserUserIdAndPostPostId(userId, postId);
+
         Like like = likeRequestDto.toEntity(user, post);
 
-        if(likeRepository.existsById(userId)){//이미 좋아요가 눌러져 있으면
-            likeRepository.delete(like);//좋아요 삭제
+        boolean isExist = likeRepository.existsByUserUserIdAndPostPostId(userId, postId);
+        System.out.println("isExist : "+isExist);
+        if(isExist){//이미 좋아요가 눌러져 있으면
+            likeDto.setUser(null);
+            likeDto.setPost(null);
+            likeRepository.deleteById(likeDto.getLikeId());//좋아요 삭제
         }else{
             likeRepository.save(like);//좋아요 저장
         }
