@@ -27,6 +27,8 @@ public class PostService {
         List<Post> careerList = postRepository.findByCategoryContaining("career");
         List<Post> etcList = postRepository.findByCategoryContaining("etc");
 
+        System.out.println("eduList : "+eduList);
+
         List<PostResponseDataDto> popularListDto = popularList.stream()
                 .map(popular -> new PostResponseDataDto(popular))
                 .collect(Collectors.toList());

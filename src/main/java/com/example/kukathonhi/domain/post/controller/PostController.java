@@ -20,14 +20,14 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping()
-    public BaseResponseDto<PostResponseDto> postList(){
+    public BaseResponseDto<?> postList(){
         PostResponseDto post = postService.getPost();
 
         return new BaseResponseDto<>(post);
     }
 
     @GetMapping("/{postId}")
-    public BaseResponseDto<List<PostResponseDto>> postDetail(@PathVariable("postId") Long id){
+    public BaseResponseDto<?> postDetail(@PathVariable("postId") Long id){
 
         postService.getDetail(id);
 
