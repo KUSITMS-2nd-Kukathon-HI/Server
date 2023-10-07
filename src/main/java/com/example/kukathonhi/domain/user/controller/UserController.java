@@ -1,5 +1,6 @@
 package com.example.kukathonhi.domain.user.controller;
 
+import com.example.kukathonhi.domain.user.dto.req.DiaryRequestDto;
 import com.example.kukathonhi.domain.user.dto.req.RegisterRequestDto;
 import com.example.kukathonhi.domain.user.service.UserService;
 import com.example.kukathonhi.global.response.BaseResponseDto;
@@ -33,5 +34,26 @@ public class UserController {
             @PathVariable Long userId
     ) {
         return userService.getUserInfo(userId);
+    }
+
+    @PostMapping("/diary")
+    public BaseResponseDto<?> createDiary(
+            @RequestBody DiaryRequestDto requestDto
+    ) {
+        return userService.createDiary(requestDto);
+    }
+
+    @GetMapping("/diary")
+    public BaseResponseDto<?> getDiaryList(
+            @RequestParam Long userId, @RequestParam String month
+    ) {
+        return userService.getDiaryList(userId, month);
+    }
+
+    @GetMapping("/diary/emotion")
+    public BaseResponseDto<?> getEmotion(
+            @RequestParam Long userId, @RequestParam String month
+    ) {
+        return userService.getEmotionList(userId, month);
     }
 }

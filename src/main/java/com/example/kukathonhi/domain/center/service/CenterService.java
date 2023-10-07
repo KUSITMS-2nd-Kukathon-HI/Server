@@ -1,8 +1,6 @@
 package com.example.kukathonhi.domain.center.service;
 
 import com.example.kukathonhi.common.Enum.CenterCategory;
-import com.example.kukathonhi.domain.center.dto.res.CenterListResponseDto;
-import com.example.kukathonhi.domain.center.dto.res.CenterResponseDto;
 import com.example.kukathonhi.domain.center.entity.Center;
 import com.example.kukathonhi.domain.center.repository.CenterRepository;
 import com.example.kukathonhi.global.response.BaseResponseDto;
