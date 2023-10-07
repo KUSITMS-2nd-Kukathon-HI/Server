@@ -2,10 +2,7 @@ package com.example.kukathonhi.domain.user.service;
 
 import com.example.kukathonhi.domain.user.dto.req.DiaryRequestDto;
 import com.example.kukathonhi.domain.user.dto.req.RegisterRequestDto;
-import com.example.kukathonhi.domain.user.dto.res.DiaryCreateResponseDto;
-import com.example.kukathonhi.domain.user.dto.res.EmotionResponseDto;
-import com.example.kukathonhi.domain.user.dto.res.UserLoginResponseDto;
-import com.example.kukathonhi.domain.user.dto.res.UserResponseDto;
+import com.example.kukathonhi.domain.user.dto.res.*;
 import com.example.kukathonhi.domain.user.entity.Diary;
 import com.example.kukathonhi.domain.user.entity.User;
 import com.example.kukathonhi.domain.user.repository.DiaryRepository;
@@ -96,7 +93,7 @@ public class UserService {
         return new BaseResponseDto<>(DiaryCreateResponseDto.of(true, "일기 생성 성공", diary.getDiaryId()));
     }
 
-    public BaseResponseDto<?> getDiaryList(Long userId) {
+    public BaseResponseDto<?> getDiaryList(Long userId, String month) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
@@ -104,7 +101,12 @@ public class UserService {
             return new BaseResponseDto<>(ErrorMessage.USER_NOT_FOUND);
         }
 
-        return new BaseResponseDto<>(diaryRepository.findAllByUserId(userId));
+        List<DiaryResponseDto> diaryList = diaryRepository.findAllByUserId(userId);
+
+        // get list mm == month
+        diaryList.removeIf(diary -> !diary.getDate().substring(5, 7).equals(month));
+
+        return new BaseResponseDto<>(diaryList);
     }
 
     public BaseResponseDto<?> getEmotionList(Long userId, String month) {

@@ -43,14 +43,14 @@ public class UserController {
         return userService.createDiary(requestDto);
     }
 
-    @GetMapping("/diary/{userId}")
+    @GetMapping("/diary/")
     public BaseResponseDto<?> getDiaryList(
-            @PathVariable Long userId
+            @RequestParam Long userId, @RequestParam String month
     ) {
-        return userService.getDiaryList(userId);
+        return userService.getDiaryList(userId, month);
     }
 
-    @GetMapping("/diary")
+    @GetMapping("/diary/emotion")
     public BaseResponseDto<?> getEmotion(
             @RequestParam Long userId, @RequestParam String month
     ) {
