@@ -1,10 +1,13 @@
 package com.example.kukathonhi.domain.center.controller;
 
+import com.example.kukathonhi.common.Enum.CenterCategory;
 import com.example.kukathonhi.domain.center.entity.Center;
 import com.example.kukathonhi.domain.center.repository.CenterRepository;
 import com.example.kukathonhi.domain.center.service.CenterService;
+import com.example.kukathonhi.global.response.BaseResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,35 +31,35 @@ public class CenterController {
     private final CenterService centerService;
     private final CenterRepository centerRepository;
 
+    @GetMapping("")
+    public BaseResponseDto<?> getCenterList() {
+        return centerService.getCenterList();
+    }
+
     @PostMapping("/insert")
     public void insert() throws IOException, ParseException {
         JSONParser parser = new JSONParser();
         // JSON 파일 읽기
-        Reader reader = new FileReader("src/main/resources/data_2.json");
+
+        Reader reader = new FileReader("src/main/resources/data_1.json");
         JSONArray dateArray = (JSONArray) parser.parse(reader);
+        centerService.insertEn(dateArray, CenterCategory.WELFARE);
 
-        for (Object o : dateArray) {
+        reader = new FileReader("src/main/resources/data_2.json");
+        dateArray = (JSONArray) parser.parse(reader);
+        centerService.insertEn(dateArray, CenterCategory.OUTSIDE);
 
-            JSONObject jsonObject = (JSONObject) o;
+        reader = new FileReader("src/main/resources/1.json");
+        dateArray = (JSONArray) parser.parse(reader);
+        centerService.insert(dateArray, CenterCategory.PROTECTION);
 
-            System.out.println("===== " + o + "=====");
-            System.out.println("centerName : " + jsonObject.get("name:"));
-            System.out.println("centerAddress : " + jsonObject.get("tel"));
-            System.out.println("centerPhone : " + jsonObject.get("addr"));
+        reader = new FileReader("src/main/resources/2.json");
+        dateArray = (JSONArray) parser.parse(reader);
+        centerService.insert(dateArray, CenterCategory.SHELTER);
 
-            if (jsonObject.get("addr") == null || jsonObject.get("tel") == null) {
-                continue;
-            }
-
-            Center newCenter = Center.builder()
-                    .centerName(jsonObject.get("name:").toString())
-                    .addressName(jsonObject.get("addr").toString())
-                    .phoneNumber(jsonObject.get("tel").toString())
-                    .build();
-
-            centerRepository.save(newCenter);
-        }
-
+        reader = new FileReader("src/main/resources/3.json");
+        dateArray = (JSONArray) parser.parse(reader);
+        centerService.insert(dateArray, CenterCategory.SUPPORT);
     }
 
 }
