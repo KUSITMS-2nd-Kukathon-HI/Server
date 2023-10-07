@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity(name = "post_like")
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
