@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,18 +22,20 @@ public class PostService {
     private final PostRepository postRepository;
 
     public PostResponseDto getPost() {
-        List<Post> popularList = postRepository.findTop4ByOrderByViewCountDesc();
         List<Post> eduList = postRepository.findByCategoryContaining("edu");
         List<Post> supportList = postRepository.findByCategoryContaining("support");
         List<Post> protectList = postRepository.findByCategoryContaining("protect");
         List<Post> careerList = postRepository.findByCategoryContaining("career");
         List<Post> etcList = postRepository.findByCategoryContaining("etc");
 
-        System.out.println("eduList : "+eduList);
+        String image1="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/popular1.png";
+        String image2="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/popular2.png";
+        String image3="https://marapdftestbucket.s3.ap-northeast-2.amazonaws.com/product_image/popular3.png";
 
-        List<PostResponseDataDto> popularListDto = popularList.stream()
-                .map(popular -> new PostResponseDataDto(popular))
-                .collect(Collectors.toList());
+        List<PostResponseDataDto> popularDto = new ArrayList<>();
+        popularDto.add(new PostResponseDataDto(image1));
+        popularDto.add(new PostResponseDataDto(image2));
+        popularDto.add(new PostResponseDataDto(image3));
 
         List<PostResponseDataDto> eduListDto = eduList.stream()
                 .map(edu -> new PostResponseDataDto(edu))
@@ -53,7 +57,7 @@ public class PostService {
                 .map(etc -> new PostResponseDataDto(etc))
                 .collect(Collectors.toList());
 
-        return new PostResponseDto(popularListDto,eduListDto,supportListDto,protectListDto,careerListDto,etcListDto);
+        return new PostResponseDto(popularDto,eduListDto,supportListDto,protectListDto,careerListDto,etcListDto);
     }
 
 

@@ -14,12 +14,15 @@ import java.net.URL;
 @Builder
 public class PostResponseDataDto {
     private String title;
-    private URL image;
+    private String image;
     private Long postId;
 
     public PostResponseDataDto(Post post) {
         this.title=post.getTitle();
-        this.image=post.getImage();
+        this.image= String.valueOf(post.getImage());
         this.postId=post.getPostId();
+    }
+    public PostResponseDataDto(String image) {
+        this.image=image;
     }
 }
