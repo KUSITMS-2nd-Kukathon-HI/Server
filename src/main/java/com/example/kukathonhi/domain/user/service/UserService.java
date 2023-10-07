@@ -1,9 +1,14 @@
 package com.example.kukathonhi.domain.user.service;
 
+import com.example.kukathonhi.domain.user.dto.req.DiaryRequestDto;
 import com.example.kukathonhi.domain.user.dto.req.RegisterRequestDto;
+import com.example.kukathonhi.domain.user.dto.res.DiaryCreateResponseDto;
+import com.example.kukathonhi.domain.user.dto.res.EmotionResponseDto;
 import com.example.kukathonhi.domain.user.dto.res.UserLoginResponseDto;
 import com.example.kukathonhi.domain.user.dto.res.UserResponseDto;
+import com.example.kukathonhi.domain.user.entity.Diary;
 import com.example.kukathonhi.domain.user.entity.User;
+import com.example.kukathonhi.domain.user.repository.DiaryRepository;
 import com.example.kukathonhi.domain.user.repository.UserRepository;
 import com.example.kukathonhi.global.response.BaseResponseDto;
 import com.example.kukathonhi.global.response.ErrorMessage;
@@ -11,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +25,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final DiaryRepository diaryRepository;
 
     public Optional<User> getUser(String id) {
 
@@ -67,5 +74,51 @@ public class UserService {
         User user = userOptional.get();
 
         return new BaseResponseDto<>(UserResponseDto.of(user.getLoginId(), user.getName(), user.getBirth()));
+    }
+
+    public BaseResponseDto<?> createDiary(DiaryRequestDto request) {
+        Optional<User> user = userRepository.findById(request.getUserId());
+
+        if (user.isEmpty()) {
+            log.error("User not found");
+            return new BaseResponseDto<>(DiaryCreateResponseDto.of(false, "존재하지 않는 유저입니다.", null));
+        }
+
+        Diary diary = Diary.createDiaryWithUser(
+                request.getTitle(),
+                request.getContent(),
+                request.getEmotion(),
+                request.getDate(),
+                user.get());
+
+        diaryRepository.save(diary);
+
+        return new BaseResponseDto<>(DiaryCreateResponseDto.of(true, "일기 생성 성공", diary.getDiaryId()));
+    }
+
+    public BaseResponseDto<?> getDiaryList(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isEmpty()) {
+            log.error("User not found");
+            return new BaseResponseDto<>(ErrorMessage.USER_NOT_FOUND);
+        }
+
+        return new BaseResponseDto<>(diaryRepository.findAllByUserId(userId));
+    }
+
+    public BaseResponseDto<?> getEmotionList(Long userId, String month) {
+        List<EmotionResponseDto> emotionList = diaryRepository.findEmotionByUserId(userId);
+
+        // get list mm == month
+        emotionList.removeIf(emotion -> !emotion.getDate().substring(5, 7).equals(month));
+
+        // yyyy.mm.dd x요일 -> dd
+        emotionList.forEach(emotion -> {
+            String date = emotion.getDate();
+            emotion.setDate(date.substring(8, 10));
+        });
+
+        return new BaseResponseDto<>(emotionList);
     }
 }

@@ -28,7 +28,7 @@ public class Diary extends BaseEntity {
     private String content;
 
     @Column(name = "emotion", nullable = false)
-    private Emotion emotion;
+    private String emotion;
 
     @Column(name = "date", nullable = false)
     private String date;
@@ -36,4 +36,16 @@ public class Diary extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static Diary createDiaryWithUser(String title, String content, String emotion, String date, User user){
+        Diary diary = Diary.builder()
+                .title(title)
+                .content(content)
+                .emotion(emotion)
+                .date(date)
+                .user(user)
+                .build();
+        user.addDiary(diary);
+        return diary;
+    }
 }
