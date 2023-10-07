@@ -21,14 +21,17 @@ public class Diary extends BaseEntity {
     @Column(name = "diary_id", nullable = false)
     private Long diaryId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Column(name = "content", nullable = false)
     private String content;
 
     @Column(name = "emotion", nullable = false)
     private Emotion emotion;
+
+    @Column(name = "date", nullable = false)
+    private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

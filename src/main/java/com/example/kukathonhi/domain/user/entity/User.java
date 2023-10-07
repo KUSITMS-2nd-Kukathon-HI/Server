@@ -33,5 +33,5 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @Builder.Default
-    private List<Diary> diaryId = new ArrayList<>();
+    private List<Diary> diaryList = new ArrayList<>();
 }
