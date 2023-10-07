@@ -11,9 +11,9 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfig {
-    private static final String API_NAME = "Hicardi API";
+    private static final String API_NAME = "청포도 API";
     private static final String API_VERSION = "0.0.2";
-    private static final String API_DESCRIPTION = "하이카디 D팀 API 명세서입니다.";
+    private static final String API_DESCRIPTION = "큐커톤 HI팀 api 명세서입니다.";
 
     @Bean
     public Docket api() {
