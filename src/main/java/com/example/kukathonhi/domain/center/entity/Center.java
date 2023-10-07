@@ -30,5 +30,5 @@ public class Center {
     private String phoneNumber;
 
     @Column(name = "category", nullable = false)
-    private CenterCategory category;
+    private String category;
 }

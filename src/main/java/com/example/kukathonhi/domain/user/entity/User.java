@@ -34,4 +34,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     @Builder.Default
     private List<Diary> diaryList = new ArrayList<>();
+
+    public void addDiary(Diary diary){
+        this.diaryList.add(diary);
+    }
 }
