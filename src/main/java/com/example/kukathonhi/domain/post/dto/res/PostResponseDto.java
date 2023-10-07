@@ -4,6 +4,7 @@ import com.example.kukathonhi.domain.post.entity.Post;
 import lombok.*;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -15,21 +16,31 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @Builder
 public class PostResponseDto {
-    private List<PostResponseDataDto> popular;
-    private List<PostResponseDataDto> edu;
-    private List<PostResponseDataDto> support;
-    private List<PostResponseDataDto> protect;
-    private List<PostResponseDataDto> career;
-    private List<PostResponseDataDto> etc;
+    private List<PostResponseDataDto> popular=new ArrayList<>();
+    private List<PostResponseDataDto> edu=new ArrayList<>();
+    private List<PostResponseDataDto> support=new ArrayList<>();
+    private List<PostResponseDataDto> protect=new ArrayList<>();
+    private List<PostResponseDataDto> career=new ArrayList<>();
+    private List<PostResponseDataDto> etc=new ArrayList<>();
 
-    public PostResponseDto(String category,PostResponseDataDto dto) {
-
-        switch (category){
-            case "popular" : popular.add(dto);
-            case "edu" : edu.add(dto);
-            case "support" : support.add(dto);
-            case "protect" : protect.add(dto);
-            case "etc" : etc.add(dto);
+    public void addDto(String category, PostResponseDataDto dto) {
+        System.out.println("category2 : "+category);
+        switch (category) {
+            case "popular":
+                popular.add(dto);
+                break;
+            case "edu":
+                edu.add(dto);
+                break;
+            case "support":
+                support.add(dto);
+                break;
+            case "protect":
+                protect.add(dto);
+                break;
+            case "etc":
+                etc.add(dto);
+                break;
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kukathonhi.domain.post.service;
 
+import com.example.kukathonhi.domain.post.dto.res.PostDetailResponseDTO;
 import com.example.kukathonhi.domain.post.dto.res.PostResponseDataDto;
 import com.example.kukathonhi.domain.post.dto.res.PostResponseDto;
 import com.example.kukathonhi.domain.post.entity.Post;
@@ -22,17 +23,29 @@ public class PostService {
 
         String category;
         PostResponseDataDto dto;
-        PostResponseDto postResponseDto = null;
+        PostResponseDto postResponseDto=new PostResponseDto();
 
         for (int i = 0; i < postList.size(); i++) {
             category = postList.get(i).getCategory();
             dto=new PostResponseDataDto(postList.get(i));
 
-            postResponseDto = new PostResponseDto(category, dto);
+            postResponseDto.addDto(category,dto);
         }
         return postResponseDto;
     }
 
-    public void getDetail(Long id) {
+    public PostDetailResponseDTO getDetail(Long id) {
+
+        Post postEntity = getPost(id);
+        return new PostDetailResponseDTO(postEntity);
+    }
+
+    private Post getPost(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                id + "번 게시물이 존재하지 않습니다!"
+                        )
+                );
     }
 }
