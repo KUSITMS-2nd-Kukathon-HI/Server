@@ -1,14 +1,14 @@
 package com.example.kukathonhi.domain.post.entity;
 
 import com.example.kukathonhi.common.BaseEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.kukathonhi.domain.like.entity.Like;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "post")
 @Getter
@@ -35,4 +35,8 @@ public class Post extends BaseEntity {
 
     @Column(name = "category", nullable = false)
     private String category;
+
+    @OneToMany(mappedBy = "post")
+    @Builder.Default
+    private List<Like> like=new ArrayList<>();
 }
