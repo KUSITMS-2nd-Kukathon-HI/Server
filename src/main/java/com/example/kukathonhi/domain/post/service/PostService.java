@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -19,23 +20,42 @@ public class PostService {
     private final PostRepository postRepository;
 
     public PostResponseDto getPost() {
-        List<Post> postList = postRepository.findAll();
+        List<Post> popularList = postRepository.findTop4ByOrderByViewCountDesc();
+        List<Post> eduList = postRepository.findByCategoryContaining("edu");
+        List<Post> supportList = postRepository.findByCategoryContaining("support");
+        List<Post> protectList = postRepository.findByCategoryContaining("protect");
+        List<Post> careerList = postRepository.findByCategoryContaining("career");
+        List<Post> etcList = postRepository.findByCategoryContaining("etc");
 
-        String category;
-        PostResponseDataDto dto;
-        PostResponseDto postResponseDto=new PostResponseDto();
+        List<PostResponseDataDto> popularListDto = popularList.stream()
+                .map(popular -> new PostResponseDataDto(popular))
+                .collect(Collectors.toList());
 
-        for (int i = 0; i < postList.size(); i++) {
-            category = postList.get(i).getCategory();
-            dto=new PostResponseDataDto(postList.get(i));
+        List<PostResponseDataDto> eduListDto = eduList.stream()
+                .map(edu -> new PostResponseDataDto(edu))
+                .collect(Collectors.toList());
 
-            postResponseDto.addDto(category,dto);
-        }
-        return postResponseDto;
+        List<PostResponseDataDto> supportListDto = supportList.stream()
+                .map(support -> new PostResponseDataDto(support))
+                .collect(Collectors.toList());
+
+        List<PostResponseDataDto> protectListDto = protectList.stream()
+                .map(protect -> new PostResponseDataDto(protect))
+                .collect(Collectors.toList());
+
+        List<PostResponseDataDto> careerListDto = careerList.stream()
+                .map(career -> new PostResponseDataDto(career))
+                .collect(Collectors.toList());
+
+        List<PostResponseDataDto> etcListDto = etcList.stream()
+                .map(etc -> new PostResponseDataDto(etc))
+                .collect(Collectors.toList());
+
+        return new PostResponseDto(popularListDto,eduListDto,supportListDto,protectListDto,careerListDto,etcListDto);
     }
 
-    public PostDetailResponseDTO getDetail(Long id) {
 
+    public PostDetailResponseDTO getDetail(Long id) {
         Post postEntity = getPost(id);
         return new PostDetailResponseDTO(postEntity);
     }
